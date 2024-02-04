@@ -20,6 +20,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug 'filipdutescu/renamer.nvim', { 'branch': 'master' }
 
 call plug#end()
 
@@ -39,6 +41,11 @@ let g:NERDTreeDirArrowCollapsible = '-'
 lua require('cmp_lsp_config')
 lua require('treesitter_config')
 
+lua require("toggleterm").setup()
+lua require("renamer").setup()
+
+nnoremap <silent> <F2> <cmd>lua require('renamer').rename()<cr>
+
 " Set filetype for GLSL files
 autocmd BufRead,BufNewFile *.glsl set filetype=glsl
 autocmd BufRead,BufNewFile *.vert set filetype=glsl
@@ -55,14 +62,13 @@ nnoremap <C-s> :w<CR>
 nnoremap <C-p> :Telescope find_files<CR>
 nnoremap <C-f> :Telescope live_grep<CR>
 
-nnoremap <C-/> :Commentary<CR>
-vnoremap <C-/> :Commentary<CR>
+nnoremap <C-c> :Commentary<CR>
+vnoremap <C-c> :Commentary<CR>
 
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gi :lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> gr :lua vim.lsp.buf.references()<CR>
 nnoremap <silent> K  :lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <C-k> :lua vim.lsp.buf.signature_help()<CR>
 
 " Move line up with Ctrl-Up
 nnoremap <C-Up> :m-2<CR>
@@ -73,3 +79,27 @@ vnoremap <C-Up> :m'<-2<CR>gv=gv
 nnoremap <C-Down> :m+<CR>
 inoremap <C-Down> <Esc>:m+<CR>i
 vnoremap <C-Down> :m'>+<CR>gv=gv
+
+" Build project
+function! BuildProject(configuration)
+	:wa
+    :cd build
+    execute 'Dispatch cmake --build . --config ' . a:configuration
+    :cd ..
+endfunction
+
+" Run project
+function! RunProject()
+	:call BuildProject("Debug")
+	:cd build/Debug
+	:let run = glob('*.exe')
+	:echo run
+	execute ':Dispatch! start ' . run
+	:cd ../..
+endfunction
+
+nnoremap <C-b> :call BuildProject("Debug")<CR>
+nnoremap <C-A-b> :call BuildProject("Release")<CR>
+
+nnoremap <F5> :call RunProject()<CR>
+nnoremap <C-F5> :call RunProject()<CR>
