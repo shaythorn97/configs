@@ -1,33 +1,54 @@
 local cmp = require'cmp'
 
 cmp.setup({
-    snippet = {
+    snippet = 
+	{
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            vim.fn["vsnip#anonymous"](args.body)
         end,
     },
-    mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    mapping = cmp.mapping.preset.insert(
+	{
+        ['<cr>'] = cmp.mapping.confirm({ select = true }),
+	    ['<tab>'] = cmp.mapping.select_next_item(),
+	 	['<s-tab>'] = cmp.mapping.select_prev_item(),
     }),
-    sources = cmp.config.sources({
+    sources = cmp.config.sources(
+	{
         { name = 'nvim_lsp' },
-        { name = 'vsnip' }, -- For vsnip users.
-    }, {
+        { name = 'vsnip' },
         { name = 'buffer' },
+		{ name = 'nvim_lsp_signature_help' }
     })
 })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('lspconfig')['clangd'].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
+	filetypes = { "c", "cpp", "ixx", "cxx", "h" },
 }
 
-require'lspconfig'.glsl_analyzer.setup{
-    filetypes = { "glsl", "vert", "frag", "geom" }
+require('lspconfig')['glsl_analyzer'].setup{
+	capabilities = capabilities,
 }
 
+-- vim.api.nvim_create_autocmd('LspAttach', 
+-- {
+	
+-- })
+
+-- Key mappings for LSP commands
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+
+vim.api.nvim_set_keymap('n', '<Leader>gd', ':lua vim.lsp.buf.definition()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>gr', ':lua vim.lsp.buf.references()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>gf', ':lua vim.lsp.buf.formatting()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>rn', ':lua vim.lsp.buf.rename()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', 's', ':lua vim.lsp.buf.signature_help()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<cr>', { silent = true })
+--vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
