@@ -21,7 +21,7 @@ vim.cmd([[Plug 'tpope/vim-fugitive']])
 vim.cmd([[Plug 'tpope/vim-commentary']])
 vim.cmd([[Plug 'tpope/vim-dispatch']])
 vim.cmd([[Plug 'tikhomirov/vim-glsl']])
---vim.cmd([[Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}]])
+vim.cmd([[Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}]])
 
 -- End plugin definition
 vim.cmd([[call plug#end()]])
@@ -54,16 +54,19 @@ vim.g.gruvbox_contrast = 'soft'
 
 -- Load gruvbox colorscheme
 vim.cmd('colorscheme gruvbox')
---vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
---vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.g.airline_theme = 'base16_gruvbox_dark_hard'
 vim.cmd('highlight String gui=NONE')
 
+-- Netrw let commands
+
 -- Load cmp (completion) configuration
 require('cmp_lsp_config')
+require 'lspconfig'.cmake.setup{}
 
 -- Load treesitter configuration
---require('treesitter_config')
+require('treesitter_config')
 
 -- Load telescope configuration
 require('telescope_config')
@@ -93,3 +96,4 @@ function RunProject()
 end
 
 vim.api.nvim_set_keymap('n', '<f5>', '<cmd>lua RunProject()<cr>', {noremap = true})
+vim.api.nvim_set_keymap('i', '<f5>', '<cmd>lua RunProject()<cr>', {noremap = true})
