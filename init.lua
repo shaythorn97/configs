@@ -22,6 +22,7 @@ vim.cmd([[Plug 'tpope/vim-commentary']])
 vim.cmd([[Plug 'tpope/vim-dispatch']])
 vim.cmd([[Plug 'tikhomirov/vim-glsl']])
 vim.cmd([[Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}]])
+vim.cmd([[Plug 'dstein64/vim-startuptime']])
 
 -- End plugin definition
 vim.cmd([[call plug#end()]])
@@ -48,6 +49,9 @@ vim.opt.shiftwidth = 4
 -- Enable system clipboard integration
 vim.opt.clipboard = 'unnamedplus'
 
+-- No word wrapping
+vim.opt.wrap = false
+
 -- Set background to dark
 vim.opt.background = 'dark'
 vim.g.gruvbox_contrast = 'soft'
@@ -60,6 +64,7 @@ vim.g.airline_theme = 'base16_gruvbox_dark_hard'
 vim.cmd('highlight String gui=NONE')
 
 -- Netrw let commands
+vim.keymap.set('n', '<leader>;', '<cmd>Ex<cr>')
 
 -- Load cmp (completion) configuration
 require('cmp_lsp_config')
@@ -79,11 +84,10 @@ vim.cmd([[
   augroup END
 ]])
 
-
 -- Build Project
 function BuildProject(configuration)
-    vim.cmd("wa");
-    vim.cmd("Dispatch cmake --build build --config " .. configuration)
+    vim.cmd("wa")
+    vim.cmd("Dispatch ninja -C build") 
 end
 
 vim.api.nvim_set_keymap('n', '<c-b>', '<cmd>lua BuildProject("Debug")<CR>', {noremap = true})
