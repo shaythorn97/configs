@@ -1,103 +1,71 @@
--- Load plugins using vim-plug
-vim.cmd([[call plug#begin('~/.vim/plugged')]])
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
--- Define plugins
-vim.cmd([[Plug 'vim-airline/vim-airline']])
-vim.cmd([[Plug 'vim-airline/vim-airline-themes']])
-vim.cmd([[Plug 'ellisonleao/gruvbox.nvim']])
-vim.cmd([[Plug 'neovim/nvim-lspconfig']])
-vim.cmd([[Plug 'hrsh7th/cmp-nvim-lsp']])
-vim.cmd([[Plug 'hrsh7th/cmp-buffer']])
-vim.cmd([[Plug 'hrsh7th/cmp-path']])
-vim.cmd([[Plug 'hrsh7th/cmp-cmdline']])
-vim.cmd([[Plug 'hrsh7th/nvim-cmp']])
-vim.cmd([[Plug 'hrsh7th/cmp-vsnip']])
-vim.cmd([[Plug 'hrsh7th/vim-vsnip']])
-vim.cmd([[Plug 'hrsh7th/cmp-nvim-lsp-signature-help']])
-vim.cmd([[Plug 'nvim-lua/plenary.nvim']])
-vim.cmd([[Plug 'nvim-telescope/telescope.nvim']])
-vim.cmd([[Plug 'nvim-telescope/telescope-fzf-native.nvim']])
-vim.cmd([[Plug 'tpope/vim-fugitive']])
-vim.cmd([[Plug 'tpope/vim-commentary']])
-vim.cmd([[Plug 'tpope/vim-dispatch']])
-vim.cmd([[Plug 'tikhomirov/vim-glsl']])
-vim.cmd([[Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}]])
-vim.cmd([[Plug 'dstein64/vim-startuptime']])
+require("lazy").setup({
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, 
+    { "neovim/nvim-lspconfig" },
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/cmp-buffer" },
+    { "hrsh7th/cmp-path" },
+    { "hrsh7th/cmp-cmdline" },
+    { "hrsh7th/nvim-cmp" },
+    { "hrsh7th/cmp-vsnip" },
+    { "hrsh7th/vim-vsnip" },
+    { "hrsh7th/cmp-nvim-lsp-signature-help" },
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-telescope/telescope.nvim" },
+    { "nvim-telescope/telescope-fzf-native.nvim" },
+    { "tpope/vim-fugitive" },
+    { "tpope/vim-commentary" },
+    { "tpope/vim-dispatch" },
+	{ "ellisonleao/gruvbox.nvim" },
+	{ "vim-airline/vim-airline" },
+	{ "vim-airline/vim-airline-themes" },
+	{ "dstein64/vim-startuptime" }
+})
 
--- End plugin definition
-vim.cmd([[call plug#end()]])
-
--- Space as LEADER
-vim.api.nvim_set_keymap('n', ' ', '<Nop>', {noremap = true})
-vim.g.mapleader = ' '
-
--- Vim commentary
-vim.api.nvim_set_keymap('n', '<c-k>', '<cmd>Commentary<cr>', {noremap = true});
-
--- Set line numbers
 vim.opt.number = true
-
--- Set tab size
 vim.opt.tabstop = 4
-
--- Use spaces instead of tabs
-vim.opt.expandtab = true
-
--- Set indent size
 vim.opt.shiftwidth = 4
-
--- Enable system clipboard integration
+vim.opt.expandtab= true
+vim.opt.breakindent = true
+vim.opt.linebreak = true
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.termguicolors = true
 
--- No word wrapping
-vim.opt.wrap = false
-
--- Set background to dark
 vim.opt.background = 'dark'
-vim.g.gruvbox_contrast = 'soft'
-
--- Load gruvbox colorscheme
 vim.cmd('colorscheme gruvbox')
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.g.airline_theme = 'base16_gruvbox_dark_hard'
+
+vim.cmd('highlight Normal guibg=NONE ctermbg=NONE')
 vim.cmd('highlight String gui=NONE')
+vim.cmd('AirlineTheme base16_gruvbox_light_hard') 
 
--- Netrw let commands
-vim.keymap.set('n', '<leader>;', '<cmd>Ex<cr>')
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+vim.keymap.set('n', '<space>', '<nop>', { noremap = true }, { silent = true })
 
--- Load cmp (completion) configuration
-require('cmp_lsp_config')
-require 'lspconfig'.cmake.setup{}
+vim.keymap.set('n', '<leader>;', ':Ex<cr>', { silent = true })
+vim.keymap.set('n', '<leader>tt', ':tabnew | term<cr>', { silent = true })
+vim.keymap.set('n', '<leader>x', ':ccl<cr>', { silent = true })
 
--- Load treesitter configuration
-require('treesitter_config')
-
--- Load telescope configuration
-require('telescope_config')
-
--- Set GLSL file type
-vim.cmd([[
-  augroup filetypes
-    autocmd!
-    autocmd BufRead,BufNewFile *.glsl,*.vert,*.frag,*.geom set filetype=glsl
+vim.cmd[[
+  augroup filetypedetect
+    au! BufRead,BufNewFile *.vert set filetype=glsl
+    au! BufRead,BufNewFile *.frag set filetype=glsl
   augroup END
-]])
+]]
 
--- Build Project
-function BuildProject(configuration)
-    vim.cmd("wa")
-    vim.cmd("Dispatch ninja -C build") 
-end
-
-vim.api.nvim_set_keymap('n', '<c-b>', '<cmd>lua BuildProject("Debug")<CR>', {noremap = true})
-vim.api.nvim_set_keymap('i', '<c-b>', '<cmd>lua BuildProject("Debug")<CR>', {noremap = true})
-
--- Run project
-function RunProject()
-    -- local run = vim.fn.glob('*.exe')
-    vim.cmd("Dispatch! cmake --build build --target run-debug")
-end
-
-vim.api.nvim_set_keymap('n', '<f5>', '<cmd>lua RunProject()<cr>', {noremap = true})
-vim.api.nvim_set_keymap('i', '<f5>', '<cmd>lua RunProject()<cr>', {noremap = true})
+-- Load lua configs
+require('treesitter-config')
+require('lsp-cmp-config')
+require('telescope-config')

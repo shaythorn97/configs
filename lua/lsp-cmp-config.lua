@@ -29,10 +29,13 @@ require('lspconfig')['clangd'].setup {
 	filetypes = { "c", "cpp", "ixx", "cxx", "h" },
 }
 
-require('lspconfig')['glsl_analyzer'].setup{
+require('lspconfig')['glsl_analyzer'].setup {
 	capabilities = capabilities,
 }
 
+require('lspconfig')['cmake'].setup {
+    capabilities = capabilities,
+}
 -- vim.api.nvim_create_autocmd('LspAttach', 
 -- {
 	
@@ -49,6 +52,5 @@ vim.api.nvim_set_keymap('n', '<Leader>gr', ':lua vim.lsp.buf.references()<CR>', 
 vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>gf', ':lua vim.lsp.buf.formatting()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<Leader>rn', ':lua vim.lsp.buf.rename()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 's', ':lua vim.lsp.buf.signature_help()<CR>', { silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>s', ':lua vim.lsp.buf.signature_help()<CR>', { silent = true })
 vim.api.nvim_set_keymap('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<cr>', { silent = true })
---vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
