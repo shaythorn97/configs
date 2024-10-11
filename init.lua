@@ -50,7 +50,7 @@ vim.cmd('highlight Normal guibg=NONE ctermbg=NONE')
 vim.cmd('highlight String gui=NONE')
 vim.cmd('highlight CursorLineNr guifg=#EBDBB2 guibg=NONE gui=bold')
 vim.cmd('highlight CursorLine guibg=NONE')
-vim.cmd('AirlineTheme base16_gruvbox_light_hard') 
+vim.cmd('AirlineTheme base16_gruvbox_dark_medium') 
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
