@@ -41,12 +41,15 @@ vim.opt.expandtab= true
 vim.opt.breakindent = true
 vim.opt.linebreak = true
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.termguicolors = true
+vim.opt.cursorline = true
 
 vim.opt.background = 'dark'
 vim.cmd('colorscheme gruvbox')
 vim.cmd('highlight Normal guibg=NONE ctermbg=NONE')
 vim.cmd('highlight String gui=NONE')
-vim.cmd('highlight CursorLineNr guifg=#FFFFFF guibg=NONE gui=bold')
+vim.cmd('highlight CursorLineNr guifg=#EBDBB2 guibg=NONE gui=bold')
+vim.cmd('highlight CursorLine guibg=NONE')
 vim.cmd('AirlineTheme base16_gruvbox_light_hard') 
 
 vim.g.mapleader = " "
