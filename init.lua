@@ -21,7 +21,6 @@ require("lazy").setup({
     { "hrsh7th/nvim-cmp" },
     { "hrsh7th/cmp-vsnip" },
     { "hrsh7th/vim-vsnip" },
-    { "hrsh7th/cmp-nvim-lsp-signature-help" },
     { "nvim-lua/plenary.nvim" },
     { "nvim-telescope/telescope.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim" },
@@ -43,6 +42,9 @@ vim.opt.linebreak = true
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
+
+-- zig
+vim.g.zig_fmt_autosave = false
 
 vim.opt.background = 'dark'
 vim.cmd('colorscheme gruvbox')

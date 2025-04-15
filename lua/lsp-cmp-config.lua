@@ -36,6 +36,10 @@ require('lspconfig')['glsl_analyzer'].setup {
 require('lspconfig')['cmake'].setup {
     capabilities = capabilities,
 }
+
+require('lspconfig')['pyright'].setup {
+    capabilities = capabilities
+}
 -- vim.api.nvim_create_autocmd('LspAttach', 
 -- {
 	
