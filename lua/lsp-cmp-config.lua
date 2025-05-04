@@ -18,7 +18,6 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
         { name = 'buffer' },
-		{ name = 'nvim_lsp_signature_help' }
     })
 })
 
@@ -38,12 +37,12 @@ require('lspconfig')['cmake'].setup {
 }
 
 require('lspconfig')['pyright'].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
 }
--- vim.api.nvim_create_autocmd('LspAttach', 
--- {
-	
--- })
+
+require('lspconfig')['gopls'].setup {
+    capabilities = capabilities,
+}
 
 -- Key mappings for LSP commands
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
