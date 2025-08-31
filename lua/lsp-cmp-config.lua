@@ -25,7 +25,6 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('lspconfig')['clangd'].setup {
     capabilities = capabilities,
-	filetypes = { "c", "cpp", "ixx", "cxx", "h" },
 }
 
 require('lspconfig')['glsl_analyzer'].setup {

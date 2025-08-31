@@ -30,7 +30,15 @@ require("lazy").setup({
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "vim-airline/vim-airline" },
 	{ "vim-airline/vim-airline-themes" },
-	{ "dstein64/vim-startuptime" }
+	{ "dstein64/vim-startuptime" },
+    { "iamcco/markdown-preview.nvim",
+          cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+          build = "cd app && npm install",
+          init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+          end,
+          ft = { "markdown" }
+    },
 })
 
 vim.opt.number = true
@@ -61,6 +69,7 @@ vim.keymap.set('n', '<space>', '<nop>', { noremap = true }, { silent = true })
 vim.keymap.set('n', '<leader>;', ':Ex<cr>', { silent = true })
 vim.keymap.set('n', '<leader>tt', ':tabnew | term<cr>', { silent = true })
 vim.keymap.set('n', '<leader>x', ':ccl<cr>', { silent = true })
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = true })
 
 vim.cmd[[
   augroup filetypedetect
