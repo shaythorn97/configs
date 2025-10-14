@@ -23,7 +23,6 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-<<<<<<< HEAD
 -- Setup servers --
 local servers = {
     'clangd',
@@ -39,27 +38,6 @@ for _, server in ipairs(servers) do
     })
     vim.lsp.enable(server)
 end
-=======
-require('lspconfig')['clangd'].setup {
-    capabilities = capabilities,
-}
-
-require('lspconfig')['glsl_analyzer'].setup {
-	capabilities = capabilities,
-}
-
-require('lspconfig')['cmake'].setup {
-    capabilities = capabilities,
-}
-
-require('lspconfig')['pyright'].setup {
-    capabilities = capabilities,
-}
-
-require('lspconfig')['gopls'].setup {
-    capabilities = capabilities,
-}
->>>>>>> 798b28d6307330272c691760c671c87d691a58f0
 
 -- Key mappings for LSP commands
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)

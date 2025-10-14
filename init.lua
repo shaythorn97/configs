@@ -30,8 +30,6 @@ require("lazy").setup({
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "vim-airline/vim-airline" },
 	{ "vim-airline/vim-airline-themes" },
-<<<<<<< HEAD
-=======
 	{ "dstein64/vim-startuptime" },
     { "iamcco/markdown-preview.nvim",
           cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -41,8 +39,7 @@ require("lazy").setup({
           end,
           ft = { "markdown" }
     },
->>>>>>> 798b28d6307330272c691760c671c87d691a58f0
-})
+  })
 
 vim.opt.number = true
 vim.opt.tabstop = 4

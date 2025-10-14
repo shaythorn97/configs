@@ -16,12 +16,7 @@ parser_config.c3 = {
 }
 
 require('nvim-treesitter.configs').setup {
-<<<<<<< HEAD
     ensure_installed = { "rust", "c_sharp", "glsl", "cmake", "ninja", "c", "cpp", "lua", "vim", "vimdoc", "query", "typescript" 
-=======
-    ensure_installed = { 
-        "rust", "c_sharp", "glsl", "cmake", "ninja", "c", "cpp", "zig", "lua", "vim", "vimdoc", "query" 
->>>>>>> 798b28d6307330272c691760c671c87d691a58f0
     },
     highlight = {
         enable = true
