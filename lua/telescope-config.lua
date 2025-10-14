@@ -2,6 +2,7 @@ require('telescope').setup
 {
 	defaults = 
 	{
+		file_ignore_patterns = { "build/*", "external/*", "node_modules/*" },
 		file_ignore_patterns = { "^build/*", "^external/*" },
 	}
 }

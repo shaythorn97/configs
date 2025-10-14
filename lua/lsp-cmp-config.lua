@@ -23,36 +23,32 @@ cmp.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require('lspconfig')['clangd'].setup {
-    capabilities = capabilities,
+-- Setup servers --
+local servers = {
+    'clangd',
+    'gopls',
+    'glsl_analyzer',
+    'ts_ls', 
+    'pyright',
 }
 
-require('lspconfig')['glsl_analyzer'].setup {
-	capabilities = capabilities,
-}
-
-require('lspconfig')['cmake'].setup {
-    capabilities = capabilities,
-}
-
-require('lspconfig')['pyright'].setup {
-    capabilities = capabilities,
-}
-
-require('lspconfig')['gopls'].setup {
-    capabilities = capabilities,
-}
+for _, server in ipairs(servers) do
+    vim.lsp.config(server, {
+        capabilities = capabilities,
+    })
+    vim.lsp.enable(server)
+end
 
 -- Key mappings for LSP commands
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '[d',        vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d',        vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
-vim.api.nvim_set_keymap('n', '<Leader>gd', ':lua vim.lsp.buf.definition()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>gr', ':lua vim.lsp.buf.references()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>gf', ':lua vim.lsp.buf.formatting()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>rn', ':lua vim.lsp.buf.rename()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>s', ':lua vim.lsp.buf.signature_help()<CR>', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<cr>', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gd', ':lua vim.lsp.buf.definition()<cr>',     { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gr', ':lua vim.lsp.buf.references()<cr>',     { silent = true })
+vim.api.nvim_set_keymap('n', 'K',          ':lua vim.lsp.buf.hover()<cr>',          { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>gf', ':lua vim.lsp.buf.formatting()<cr>',     { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>rn', ':lua vim.lsp.buf.rename()<cr>',         { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>s',  ':lua vim.lsp.buf.signature_help()<cr>', { silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ca', ':lua vim.lsp.buf.code_action()<cr>',    { silent = true })

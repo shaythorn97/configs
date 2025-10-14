@@ -39,7 +39,7 @@ require("lazy").setup({
           end,
           ft = { "markdown" }
     },
-})
+  })
 
 vim.opt.number = true
 vim.opt.tabstop = 4
@@ -68,13 +68,23 @@ vim.keymap.set('n', '<space>', '<nop>', { noremap = true }, { silent = true })
 
 vim.keymap.set('n', '<leader>;', ':Ex<cr>', { silent = true })
 vim.keymap.set('n', '<leader>tt', ':tabnew | term<cr>', { silent = true })
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { silent = true })
 vim.keymap.set('n', '<leader>x', ':ccl<cr>', { silent = true })
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = true })
 
+-- set shader file extensions to use glsl lsp and ts
 vim.cmd[[
-  augroup filetypedetect
-    au! BufRead,BufNewFile *.vert set filetype=glsl
-    au! BufRead,BufNewFile *.frag set filetype=glsl
+  augroup glslfiletypedetect
+    autocmd!
+    autocmd BufRead,BufNewFile *.vert,*.frag setlocal filetype=glsl
+  augroup END
+]]
+
+-- 2 tab spaces for front end dev
+vim.cmd[[
+  augroup frontendtwotabspaces
+    autocmd!
+    autocmd BufRead,BufNewFile *.ts,*.tsx,*.css setlocal tabstop=2 shiftwidth=2
   augroup END
 ]]
 
