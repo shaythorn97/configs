@@ -30,6 +30,18 @@ require("lazy").setup({
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "vim-airline/vim-airline" },
 	{ "vim-airline/vim-airline-themes" },
+<<<<<<< HEAD
+=======
+	{ "dstein64/vim-startuptime" },
+    { "iamcco/markdown-preview.nvim",
+          cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+          build = "cd app && npm install",
+          init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+          end,
+          ft = { "markdown" }
+    },
+>>>>>>> 798b28d6307330272c691760c671c87d691a58f0
 })
 
 vim.opt.number = true
@@ -41,6 +53,9 @@ vim.opt.linebreak = true
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
+
+-- zig
+vim.g.zig_fmt_autosave = false
 
 vim.opt.background = 'dark'
 vim.cmd('colorscheme gruvbox')
@@ -58,6 +73,7 @@ vim.keymap.set('n', '<leader>;', ':Ex<cr>', { silent = true })
 vim.keymap.set('n', '<leader>tt', ':tabnew | term<cr>', { silent = true })
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { silent = true })
 vim.keymap.set('n', '<leader>x', ':ccl<cr>', { silent = true })
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { noremap = true, silent = true })
 
 -- set shader file extensions to use glsl lsp and ts
 vim.cmd[[
