@@ -21,7 +21,6 @@ require("lazy").setup({
     { "hrsh7th/nvim-cmp" },
     { "hrsh7th/cmp-vsnip" },
     { "hrsh7th/vim-vsnip" },
-    { "hrsh7th/cmp-nvim-lsp-signature-help" },
     { "nvim-lua/plenary.nvim" },
     { "nvim-telescope/telescope.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim" },
@@ -31,7 +30,6 @@ require("lazy").setup({
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "vim-airline/vim-airline" },
 	{ "vim-airline/vim-airline-themes" },
-	{ "dstein64/vim-startuptime" }
 })
 
 vim.opt.number = true
@@ -58,12 +56,22 @@ vim.keymap.set('n', '<space>', '<nop>', { noremap = true }, { silent = true })
 
 vim.keymap.set('n', '<leader>;', ':Ex<cr>', { silent = true })
 vim.keymap.set('n', '<leader>tt', ':tabnew | term<cr>', { silent = true })
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { silent = true })
 vim.keymap.set('n', '<leader>x', ':ccl<cr>', { silent = true })
 
+-- set shader file extensions to use glsl lsp and ts
 vim.cmd[[
-  augroup filetypedetect
-    au! BufRead,BufNewFile *.vert set filetype=glsl
-    au! BufRead,BufNewFile *.frag set filetype=glsl
+  augroup glslfiletypedetect
+    autocmd!
+    autocmd BufRead,BufNewFile *.vert,*.frag setlocal filetype=glsl
+  augroup END
+]]
+
+-- 2 tab spaces for front end dev
+vim.cmd[[
+  augroup frontendtwotabspaces
+    autocmd!
+    autocmd BufRead,BufNewFile *.ts,*.tsx,*.css setlocal tabstop=2 shiftwidth=2
   augroup END
 ]]
 
