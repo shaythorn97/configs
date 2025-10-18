@@ -27,18 +27,10 @@ require("lazy").setup({
     { "tpope/vim-fugitive" },
     { "tpope/vim-commentary" },
     { "tpope/vim-dispatch" },
-	{ "ellisonleao/gruvbox.nvim" },
+	{ "morhetz/gruvbox" },
 	{ "vim-airline/vim-airline" },
 	{ "vim-airline/vim-airline-themes" },
 	{ "dstein64/vim-startuptime" },
-    { "iamcco/markdown-preview.nvim",
-          cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-          build = "cd app && npm install",
-          init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-          end,
-          ft = { "markdown" }
-    },
   })
 
 vim.opt.number = true
@@ -55,12 +47,13 @@ vim.opt.cursorline = true
 vim.g.zig_fmt_autosave = false
 
 vim.opt.background = 'dark'
+vim.g.gruvbox_bold = 0
 vim.cmd('colorscheme gruvbox')
 vim.cmd('highlight Normal guibg=NONE ctermbg=NONE')
 vim.cmd('highlight String gui=NONE')
 vim.cmd('highlight CursorLineNr guifg=#EBDBB2 guibg=NONE gui=bold')
 vim.cmd('highlight CursorLine guibg=NONE')
-vim.cmd('AirlineTheme base16_gruvbox_dark_medium') 
+vim.cmd('AirlineTheme gruvbox') 
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
